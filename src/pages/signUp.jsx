@@ -1,36 +1,36 @@
-import  { useRef, useState } from "react"
-import VITE_API from '../../api'
+import { useRef, useState } from "react";
+import VITE_API from "../../api";
 import axios from "axios";
-import { Link as Anchor ,useNavigate } from "react-router-dom";
-import ModalMinga from "../components/ModalMinga"
+import { Link as Anchor, useNavigate } from "react-router-dom";
+import ModalMinga from "../components/ModalMinga";
 
-export default function SignUp(){
-    let email = useRef();
-    let photo = useRef();
-    let password = useRef();
-    const navigate = useNavigate()
+export default function SignUp() {
+  let email = useRef();
+  let photo = useRef();
+  let password = useRef();
+  const navigate = useNavigate();
 
-    function handleForm(e) {
-      e.preventDefault();
-      let data = {
-        email: email.current.value,
-        photo: photo.current.value,
-        password: password.current.value,
-      };
-      axios.post(VITE_API + "auth/signup", data)
-        .then(() => {
-          setModalSuccessIsOpen(true)
-          setTimeout(function(){
-            navigate('/auth/signin/auth');
+  function handleForm(e) {
+    e.preventDefault();
+    let data = {
+      email: email.current.value,
+      photo: photo.current.value,
+      password: password.current.value,
+    };
+    axios
+      .post(VITE_API + "auth/signup", data)
+      .then(() => {
+        setModalSuccessIsOpen(true);
+        setTimeout(function () {
+          navigate("/auth/signin/auth");
         }, 1000);
-        })
-        .catch(err => { 
-          setErrorMessage(err.response.data.message.map(message => message))
-          setModalErrorIsOpen(true)
-        })
-    }
+      })
+      .catch((err) => {
+        setErrorMessage(err.response.data.message.map((message) => message));
+        setModalErrorIsOpen(true);
+      });
+  }
 
-    
   const [modalSuccessIsOpen, setModalSuccessIsOpen] = useState(false);
   const [modalErrorIsOpen, setModalErrorIsOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState([]);
@@ -51,9 +51,9 @@ export default function SignUp(){
       <div>
         <div className="p-4">
           <h2 className="font-semibold">Error</h2>
-          {errorMessage.map(message => (
+          {errorMessage.map((message) => (
             <div key={message}>{message}</div>
-          ))}  
+          ))}
         </div>
       </div>
     );
@@ -61,11 +61,11 @@ export default function SignUp(){
 
   const closeModal = () => {
     setModalSuccessIsOpen(false);
-  }
+  };
 
   const closeErrorModal = () => {
     setModalErrorIsOpen(false);
-  }
+  };
 
   return (
     <>
@@ -75,7 +75,9 @@ export default function SignUp(){
             <div className="flex flex-col w-[90vw] sm:pt-28">
               <form onSubmit={(e) => handleForm(e)}>
                 <div className="flex flex-col items-center">
-                  <h1 className="text-lg text-center font-semibold text-gray-800">Welcome<span className='text-[#F472B6]'> back</span>!</h1>
+                  <h1 className="text-lg text-center font-semibold text-gray-800">
+                    Welcome<span className="text-[#F472B6]"> back</span>!
+                  </h1>
                   <p className="text-m text-center text-gray-550 mt-4">
                     Discover manga, manhua and manhwa, track your <br></br>{" "}
                     progress, have fun, read manga.
@@ -193,33 +195,50 @@ export default function SignUp(){
                 </div>
               </form>
               <div className="flex space-x-2 justify-center items-end border-2 border-gray-300 text-gray-600 py-2 rounded-xl transition duration-100">
-                <img className=" h-5 cursor-pointer" src="https://i.imgur.com/arC60SB.png" alt="asd" />
-                <Anchor to="https://www.google.com.ar/"><button>Sign in with google</button></Anchor>
+                <img
+                  className=" h-5 cursor-pointer"
+                  src="https://i.imgur.com/arC60SB.png"
+                  alt="asd"
+                />
+                <Anchor to="https://www.google.com.ar/">
+                  <button>Sign in with google</button>
+                </Anchor>
               </div>
-              <div className='flex flex-col items-center'>
-              <Anchor to="/auth/signin/login" className="mt-2"><span className="mt-6 "> Already have an account? <span className="cursor-pointer text-sm text-fuchsia-400 font-bold">Log in</span></span></Anchor>
+              <div className="flex flex-col items-center">
+                <Anchor to="/auth/signin/login" className="mt-2">
+                  <span className="mt-6 ">
+                    {" "}
+                    Already have an account?{" "}
+                    <span className="cursor-pointer text-sm text-fuchsia-400 font-bold">
+                      Log in
+                    </span>
+                  </span>
+                </Anchor>
               </div>
-              <div className='flex self-center'>
-                <Anchor to="/" className="mt-2"> Go back to  <span className="cursor-pointer text-sm text-fuchsia-400 font-bold">Home page</span></Anchor>
+              <div className="flex self-center">
+                <Anchor to="/" className="mt-2">
+                  {" "}
+                  Go back to{" "}
+                  <span className="cursor-pointer text-sm text-fuchsia-400 font-bold">
+                    Home page
+                  </span>
+                </Anchor>
               </div>
             </div>
           </div>
         </div>
         <img
-          src="/public/Rectangle 81.png"
+          src="/Rectangle81.png"
           className="hidden sm:w-1/2 h-full sm:flex object-cover object-top"
+          alt="rectangulo"
         />
       </div>
-      
+
       {modalSuccessIsOpen && (
-        <ModalMinga onClose={closeModal}>
-          {successModal()}
-        </ModalMinga>
+        <ModalMinga onClose={closeModal}>{successModal()}</ModalMinga>
       )}
       {modalErrorIsOpen && (
-        <ModalMinga onClose={closeErrorModal}>
-          {errorModal()}
-        </ModalMinga>
+        <ModalMinga onClose={closeErrorModal}>{errorModal()}</ModalMinga>
       )}
     </>
   );
